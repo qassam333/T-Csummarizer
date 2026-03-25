@@ -1,4 +1,5 @@
-/.venv
+/server/.venv
 .env
-/__pycache__
+server/__pycache__
 *.log
+.cursor

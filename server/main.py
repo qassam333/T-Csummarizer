@@ -4,6 +4,7 @@ from google import genai
 from google.genai.types import HttpOptions # Add this
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -16,16 +17,30 @@ class AnalyzeRequest(BaseModel):
     text: str
 
 app = FastAPI()
-for model in client.models.list():
-        print(model.name)
 @app.post("/analyze")
 async def analyze(request: AnalyzeRequest):
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash", 
-            contents=request.text
-        )
-        return {"result": response.text}
-    except Exception as e:
-        return {"error": str(e)}
-    
+    prompt = f"""You are a privacy expert. Analyze the following Terms & Conditions or Privacy Policy and return ONLY valid JSON, no explanation, no markdown.
+
+Return this exact format:
+{{
+  "rating": <integer 1-10, where 1=very dangerous, 10=very safe>,
+  "rating_label": "<Dangerous | Concerning | Moderate | Good | Excellent>",
+  "summary": "<2 paragraphs in simple English>",
+  "critical_flags": [
+    {{
+      "severity": "<high | medium | low>",
+      "title": "<short title>",
+      "detail": "<one sentence explanation>"
+    }}
+  ]
+}}
+
+Text to analyze:
+{request.text}
+"""
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+    clean = (response.text or "").strip().replace("```json", "").replace("```", "").strip()
+    return json.loads(clean)
