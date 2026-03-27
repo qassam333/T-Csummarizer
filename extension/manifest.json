@@ -5,8 +5,12 @@
     "version": "1.0",
     "manifest_version": 3,
     "action": {
-        "default_popup": "placeholder.html",
-        "default_icon": "/icons/icon.png"
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "16": "icons/icon.png",
+        "48": "icons/icon.png",
+        "128": "icons/icon.png"
     },
     "permissions" : [
         "activeTab", 
