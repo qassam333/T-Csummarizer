@@ -1,34 +1,32 @@
 {
-    
-    "name": "T&C summarizer",
-    "description": "summarize the terms and conditions of a website",
-    "version": "1.0",
-    "manifest_version": 3,
-    "action": {
-        "default_popup": "popup.html"
-    },
-    "icons": {
-        "16": "icons/icon.png",
-        "48": "icons/icon.png",
-        "128": "icons/icon.png"
-    },
-    "permissions" : [
-        "activeTab", 
-        "scripting", 
-        "storage" 
-    ],
-    "host_permissions" :[
-        "http://localhost:8000/*"
-    ],
-    "content_scripts" :[
-     {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"],
-        "run_at": "document_idle"
+  "name": "T&C summarizer",
+  "description": "Summarize the terms and conditions of a website",
+  "version": "1.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://t-csummarizer.onrender.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
-    ],
-    "background": {
-        "service_worker": "background.js"
-    }
-     
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
